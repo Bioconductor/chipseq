@@ -452,10 +452,7 @@ promoters <- flank(gregions, 1000, both = TRUE)
 @ 
 %
 And count the peaks that fall into a promoter:
-<<>>=
-peakSummary$inPromoter <- peakSummary %over% promoters
-xtabs(~ inPromoter + change, peakSummary)
-@ 
+
 Or somewhere upstream or in a gene:
 <<>>=
 peakSummary$inUpstream <- peakSummary %over% flank(gregions, 20000)
