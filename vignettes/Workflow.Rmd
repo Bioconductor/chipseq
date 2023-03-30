@@ -53,9 +53,10 @@ qa_list <- lapply(sampleFiles, qa)
 report(do.call(rbind, qa_list)) 
 ## spend some time evaluating the QA report, then procede 
 filter <- compose(chipseqFilter(), alignQualityFilter(15)) 
-cstest <- GenomicRangesList(lapply(sampleFiles, function(file) 
-  as(readAligned(file, filter), "GRanges") )) 
-cstest <- cstest[seqnames(cstest) in c("chr10", "chr11", "chr12")] 
+cstest <- GenomicRangesList(lapply(sampleFiles, function(file) {
+  as(readAligned(file, filter), "GRanges") 
+}))
+cstest <- cstest[seqnames(cstest) %in% c("chr10", "chr11", "chr12")]
 ```
 
 The above step has been performed in advance,
@@ -68,8 +69,8 @@ cstest
 ```
 
 ```{r convert-cstest, echo=FALSE, eval=FALSE}
-## code used to convert the GenomeDataList to a
-GRangesList cstest <- GenomicRangesList(lapply(cstest, function(gd)
+## code used to convert the GenomeDataList to a GRangesList
+cstest <- GenomicRangesList(lapply(cstest, function(gd)
   do.call(c, lapply(names(gd), function(chr) 
     pos <- gd[[chr]] 
     starts <- c( pos[["-"]] - 23L, pos[["+"]]) 
@@ -248,15 +249,15 @@ xyplot(log(count) ~ depth | sample, as.data.frame(depth.islands),
        subset = (chromosome == "chr10" & depth <= 20), 
        layout = c(1, 2), pch = 16, type = c("p", "g"), 
        panel = function(x, y, ...){
-         lambda <- 2 * exp(y[2]) / exp(y[1]) 
-         null.est <- function(xx) {
-              xx * log(lambda) - lambda - lgamma(xx + 1)
-         }
-         log.N.hat <- null.est(1) - y[1]
-         panel.lines(1:10, -log.N.hat + null.est(1:10), col = "black")
-         panel.xyplot(x, y, ...)
+           lambda <- 2 * exp(y[2]) / exp(y[1]) 
+           null.est <- function(xx) {
+               xx * log(lambda) - lambda - lgamma(xx + 1)
+           } 
+           log.N.hat <- null.est(1) - y[1]
+           panel.lines(1:10, -log.N.hat + null.est(1:10), col = "black")
+           panel.xyplot(x, y, ...)
        })
-## depth.islands \<- summarizeReads(cstest, summary.fun = islandDepthSummary)
+## depth.islands <- summarizeReads(cstest, summary.fun = islandDepthSummary)
 ```
 
 ```{r fig=TRUE, height=10, echo=FALSE}
@@ -388,7 +389,8 @@ We use a simple cutoff to flag peaks that are different.
 
 ```{r}
 mcols(peakSummary) <- 
-    within(mcols(peakSummary), {
+    within(mcols(peakSummary), 
+       {
            diffs <- asinh(sums2) - asinh(sums1) 
            resids <- (diffs - median(diffs)) / mad(diffs) 
            up <- resids > 2 
@@ -432,18 +434,18 @@ or somewhere upstream or in a gene:
 
 ```{r}
 peakSummary$inUpstream <- peakSummary %over% flank(gregions, 20000)
-peakSummary$inGene <- peakSummary 
+peakSummary$inGene <- peakSummary %over% gregions
 ```
 
 ```{r}
 sumtab <- 
-   as.data.frame(rbind(total = xtabs(change, peakSummary), 
-                       promoter = xtabs(change, 
-                         subset(peakSummary, inPromoter)), 
-                       upstream = xtabs(change, 
-                         subset(peakSummary, inUpstream)), 
-                       gene = xtabs(change, subset(peakSummary, inGene))))
-## cbind(sumtab, ratio = round(sumtab[, "down"] / sumtab[, "up"], 3))
+    as.data.frame(rbind(total = xtabs(~ change, peakSummary),
+                        promoter = xtabs(~ change, 
+                          subset(peakSummary, inPromoter)),
+                        upstream = xtabs(~ change, 
+                          subset(peakSummary, inUpstream)),
+                        gene = xtabs(~ change, subset(peakSummary, inGene))))
+## cbind(sumtab, ratio = round(sumtab[, "down"] /  sumtab[, "up"], 3))
 ```
 
 # Visualizing peaks in genomic context
@@ -483,8 +485,7 @@ bar chart. Next, we might programmatically display a view for the top 5
 tallest peaks: 
 
 ```{r tracklayer-view-5, eval=FALSE} 
-views <- browserView(session, head(peak.sort, 5), 
-full = c("gfpCov", "ctcfCov")) 
+views <- browserView(session, head(peak.sort, 5), full = c("gfpCov", "ctcfCov")) 
 ```
 
 # Version information 
