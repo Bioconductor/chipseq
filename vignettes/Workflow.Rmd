@@ -59,8 +59,8 @@ cstest <- GenomicRangesList(lapply(sampleFiles, function(file) {
 cstest <- cstest[seqnames(cstest) %in% c("chr10", "chr11", "chr12")]
 ```
 
-The above step has been performed in advance,
-and the output has been included as a dataset in this package. We load
+The above step has been performed in advance, and
+the output has been included as a dataset in this package. We load
 it now: 
 
 ```{r} 
