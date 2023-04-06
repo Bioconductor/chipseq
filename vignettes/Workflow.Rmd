@@ -330,7 +330,7 @@ Below, we plot the four highest peaks on chromosome 10.
 coverageplot(peaks.pos$chr10[wpeaks[1]], peaks.neg$chr10[wpeaks[1]])
 ```
 
-```{r fig=TRUE, height=5, echo=FALSE}
+```{r fig.height=5, echo=FALSE}
 plot(trellis.last.object())
 ```
 
