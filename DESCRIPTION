@@ -7,14 +7,14 @@ Authors@R: c(
         person("Michael", "Lawrence", role = "aut"),
         person("Zizhen", "Yao", role = "aut"),
         person("Oluwabukola", "Bamigbade", role = "ctb",
-               comment = "Converted vignette from Sweave to R Markdown / HTML."),
+               comment = "Converted Chipseq vignette from ChipseqFiles.Rnw to RMarkdown / HTML."),
         person("Bioconductor Package Maintainer",
                email = "maintainer@bioconductor.org", role = "cre"))
 Description: Tools for helping process short read data for chipseq
         experiments.
 Depends: R (>= 2.10), methods, BiocGenerics (>= 0.1.0), S4Vectors (>= 0.17.25),
         IRanges (>= 2.13.12), GenomicRanges (>= 1.31.8), ShortRead
-Imports: methods, stats, lattice, BiocGenerics, IRanges, GenomicRanges, ShortRead
+Imports: stats, lattice
 Suggests: BSgenome, GenomicFeatures, TxDb.Mmusculus.UCSC.mm9.knownGene, BiocStyle, knitr
 License: Artistic-2.0
 LazyLoad: yes

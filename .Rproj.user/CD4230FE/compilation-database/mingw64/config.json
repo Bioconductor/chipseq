@@ -1,0 +1,12 @@
+{
+    "args": [
+        "-DEIGEN_DONT_VECTORIZE",
+        "-nostdinc"
+    ],
+    "pch": "",
+    "is_cpp": false,
+    "hash": "1680200389",
+    "compiler": "14695981039346656037",
+    "rversion": "4.2.3",
+    "dbversion": 4
+}
