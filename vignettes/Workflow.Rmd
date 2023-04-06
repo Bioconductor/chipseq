@@ -202,7 +202,7 @@ xyplot(log(count) ~  nread | sample, as.data.frame(nread.islands),
        layout = c(1, 2), pch = 16, type = c("p", "g"))
 ```
 
-```{r fig=TRUE, height=10, echo=FALSE}
+```{r fig.height=10, echo=FALSE}
 plot(trellis.last.object()) 
 ```
 
@@ -224,7 +224,7 @@ xyplot(log(count) ~ nread | sample, data = as.data.frame(nread.islands),
        })
 ```
 
-```{r fig=TRUE, height=8, echo=FALSE}
+```{r fig.height=8, echo=FALSE}
 plot(trellis.last.object()) 
 ```
 
@@ -260,7 +260,7 @@ xyplot(log(count) ~ depth | sample, as.data.frame(depth.islands),
 ## depth.islands <- summarizeReads(cstest, summary.fun = islandDepthSummary)
 ```
 
-```{r fig=TRUE, height=10, echo=FALSE}
+```{r fig.height=10, echo=FALSE}
 plot(trellis.last.object()) 
 ```
 
@@ -338,7 +338,7 @@ plot(trellis.last.object())
 coverageplot(peaks.pos$chr10[wpeaks[2]], peaks.neg$chr10[wpeaks[2]])
 ```
 
-```{r fig=TRUE, height=5, echo=FALSE}
+```{r fig.height=5, echo=FALSE}
 plot(trellis.last.object())
 ```
 
@@ -346,7 +346,7 @@ plot(trellis.last.object())
 coverageplot(peaks.pos$chr10[wpeaks[3]], peaks.neg$chr10[wpeaks[3]])
 ``` 
 
-```{r fig=TRUE, height=5, echo=FALSE}
+```{r fig.height=5, echo=FALSE}
 plot(trellis.last.object())
 ```
 
@@ -354,7 +354,7 @@ plot(trellis.last.object())
 coverageplot(peaks.pos$chr10[wpeaks[4]], peaks.neg$chr10[wpeaks[4]])
 ```
 
-```{r fig=TRUE, height=5, echo=FALSE}
+```{r fig.height=5, echo=FALSE}
 plot(trellis.last.object())
 ```
 
@@ -381,7 +381,7 @@ xyplot(asinh(sums2) ~ asinh(sums1) | seqnames,
        type = c("p", "g"), alpha = 0.5, aspect = "iso")
 ``` 
 
-```{r fig=TRUE, height=5, echo=FALSE}
+```{r fig.height=5, echo=FALSE}
 plot(trellis.last.object()) 
 ```
 
