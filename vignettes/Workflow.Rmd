@@ -1,9 +1,9 @@
 ---
 title: "Some Basic Analysis of ChIP-Seq Data"
-converter:
+author:
   - name: "Oluwabukola Bamigbade" 
     affiliation: "Vignette translation from Sweave to Rmarkdown / HTML"
-date:  "`r format(Sys.time(), '%B %d , %Y')`"
+date:  "`r format(Sys.time(), '%B %d %Y')`"
 vignette: >
   %\VignetteIndexEntry{Some Basic Analysis of ChIP-Seq Data}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,7 +19,7 @@ basic tasks in the analysis of ChIP-Seq data. We will use several
 functions in the as-yet-unreleased `r Biocpkg("chipseq")` package, which
 provides convenient interfaces to other powerful packages such as
 `r Biocpkg("ShortRead")` and `r Biocpkg("IRanges")`. We will also use
-the `r Biocpkg("lattice")` and `r Biocpkg("rtracklayer")` packages for
+the `r CRANpkg("lattice")` and `r Biocpkg("rtracklayer")` packages for
 visualization.
 
 ```{r setup, echo=TRUE, message=FALSE}
@@ -224,7 +224,7 @@ xyplot(log(count) ~ nread | sample, data = as.data.frame(nread.islands),
        })
 ```
 
-```{r fig.height=8, echo=FALSE}
+```{r fig.height=8}
 plot(trellis.last.object()) 
 ```
 
@@ -330,7 +330,7 @@ Below, we plot the four highest peaks on chromosome 10.
 coverageplot(peaks.pos$chr10[wpeaks[1]], peaks.neg$chr10[wpeaks[1]])
 ```
 
-```{r fig.height=5, echo=FALSE}
+```{r fig.height=5}
 plot(trellis.last.object())
 ```
 
