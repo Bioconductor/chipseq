@@ -196,14 +196,10 @@ nread.islands <- stack(nread.islands, "sample")
 nread.islands 
 ```
 
-```{r}
+```{r fig.height=10}
 xyplot(log(count) ~  nread | sample, as.data.frame(nread.islands),
        subset = (chromosome == "chr10" & nread <= 40), 
        layout = c(1, 2), pch = 16, type = c("p", "g"))
-```
-
-```{r fig.height=10, echo=FALSE}
-plot(trellis.last.object()) 
 ```
 
 If reads were sampled randomly from the genome, then the null
@@ -214,7 +210,7 @@ In other words, $\log P(X = k)$ is linear in $k$. Although our
 samples are not random, the islands with just one or two reads may be 
 representative of the null distribution. 
 
-```{r}
+```{r fig.height=8}
 xyplot(log(count) ~ nread | sample, data = as.data.frame(nread.islands), 
        subset = (chromosome == "chr10" & nread <= 40), 
        layout = c(1, 2), pch = 16, type = c("p", "g"), 
@@ -224,28 +220,24 @@ xyplot(log(count) ~ nread | sample, data = as.data.frame(nread.islands),
        })
 ```
 
-```{r fig.height=8}
-plot(trellis.last.object()) 
-```
-
 We can create a similar plot of the distribution of depths. 
 
 ```{r}
 islandDepthSummary <- function(x) 
 {
- g <- resize(x, 200) 
- s <- slice(coverage(g), lower = 1) 
- tab <- table(viewMaxs(s) / 200) 
- df <- DataFrame(tab) 
- colnames(df) <- c("chromosome", "depth", "count")
- df$depth <- as.integer(df$depth) 
- df
+  g <- resize(x, 200) 
+  s <- slice(coverage(g), lower = 1) 
+  tab <- table(viewMaxs(s) / 200) 
+  df <- DataFrame(tab) 
+  colnames(df) <- c("chromosome", "depth", "count")
+  df$depth <- as.integer(df$depth) 
+  df
 } 
 
 depth.islands <- DataFrameList(lapply(cstest, islandDepthSummary))
 depth.islands <- stack(depth.islands, "sample")
 
-xyplot(log(count) ~ depth | sample, as.data.frame(depth.islands),
+plt <- xyplot(log(count) ~ depth | sample, as.data.frame(depth.islands),
        subset = (chromosome == "chr10" & depth <= 20), 
        layout = c(1, 2), pch = 16, type = c("p", "g"), 
        panel = function(x, y, ...){
@@ -257,11 +249,12 @@ xyplot(log(count) ~ depth | sample, as.data.frame(depth.islands),
            panel.lines(1:10, -log.N.hat + null.est(1:10), col = "black")
            panel.xyplot(x, y, ...)
        })
+
 ## depth.islands <- summarizeReads(cstest, summary.fun = islandDepthSummary)
 ```
 
 ```{r fig.height=10, echo=FALSE}
-plot(trellis.last.object()) 
+plt
 ```
 
 The above plot is very useful for detecting peaks, discussed in the next
@@ -269,7 +262,7 @@ section. As a convenience, it can be created for the coverage over all
 chromosomes for a single sample by calling the `islandDepthPlot`
 function: 
 
-```{r islandDepthPlot}
+```{r islandDepthPlot, eval=FALSE}
 islandDepthPlot(cov.ctcf)
 ```
 
@@ -326,36 +319,20 @@ wpeaks
 
 Below, we plot the four highest peaks on chromosome 10.
 
-```{r}
+```{r fig.height=5}
 coverageplot(peaks.pos$chr10[wpeaks[1]], peaks.neg$chr10[wpeaks[1]])
 ```
 
 ```{r fig.height=5}
-plot(trellis.last.object())
-```
-
-```{r}
 coverageplot(peaks.pos$chr10[wpeaks[2]], peaks.neg$chr10[wpeaks[2]])
 ```
 
-```{r fig.height=5, echo=FALSE}
-plot(trellis.last.object())
-```
-
-```{r}
+```{r fig.height=5}
 coverageplot(peaks.pos$chr10[wpeaks[3]], peaks.neg$chr10[wpeaks[3]])
 ``` 
 
-```{r fig.height=5, echo=FALSE}
-plot(trellis.last.object())
-```
-
-```{r}
+```{r fig.height=5}
 coverageplot(peaks.pos$chr10[wpeaks[4]], peaks.neg$chr10[wpeaks[4]])
-```
-
-```{r fig.height=5, echo=FALSE}
-plot(trellis.last.object())
 ```
 
 # Differential peaks
@@ -372,7 +349,7 @@ peaks.gfp <- slice(cov.gfp, lower = 8)
 
 peakSummary <- diffPeakSummary(peaks.gfp, peaks.ctcf)
 
-xyplot(asinh(sums2) ~ asinh(sums1) | seqnames,
+plt <- xyplot(asinh(sums2) ~ asinh(sums1) | seqnames,
        data = as.data.frame(peakSummary), 
        panel = function(x, y, ...) {
            panel.xyplot(x, y, ...)
@@ -382,7 +359,7 @@ xyplot(asinh(sums2) ~ asinh(sums1) | seqnames,
 ``` 
 
 ```{r fig.height=5, echo=FALSE}
-plot(trellis.last.object()) 
+plt
 ```
 
 We use a simple cutoff to flag peaks that are different. 
@@ -396,7 +373,7 @@ mcols(peakSummary) <-
            up <- resids > 2 
            down <- resids < -2 
            change <- ifelse(up, "up", ifelse(down, "down", "flat")) 
-    })
+       })
 ```
 
 # Placing peaks in genomic context 
