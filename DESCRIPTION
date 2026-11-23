@@ -1,6 +1,6 @@
 Package: chipseq
 Title: chipseq: A package for analyzing chipseq data
-Version: 1.63.0
+Version: 1.64.0
 Authors@R: c(
         person("Deepayan", "Sarkar", role = "aut"),
         person("Robert", "Gentleman", role = "aut"),
